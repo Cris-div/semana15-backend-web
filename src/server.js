@@ -3,10 +3,18 @@ require('dotenv').config();
 const app = require('./app');
 const sequelize = require('./config/database');
 
-// Importar modelos
-require('./models/Product');
-require('./models/User');
-require('./models/Category');
+const Product = require('./models/Product');
+const User = require('./models/User');
+const Category = require('./models/Category');
+
+// Relaciones
+Category.hasMany(Product, {
+  foreignKey: 'categoryId'
+});
+
+Product.belongsTo(Category, {
+  foreignKey: 'categoryId'
+});
 
 const PORT = process.env.PORT || 3001;
 
