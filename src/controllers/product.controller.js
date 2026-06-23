@@ -4,24 +4,30 @@ const Product = require('../models/Product');
 exports.getAllProducts = async (req, res) => {
   try {
     const products = await Product.findAll();
+
     res.json({
       success: true,
       message: 'Productos obtenidos correctamente',
       data: products
     });
+
   } catch (error) {
+
     console.error('Error al obtener productos:', error);
+
     res.status(500).json({
       success: false,
       message: 'Error al obtener productos',
       data: null
     });
+
   }
 };
 
 // Obtener un producto por ID
 exports.getProductById = async (req, res) => {
   try {
+
     const product = await Product.findByPk(req.params.id);
 
     if (!product) {
@@ -37,20 +43,31 @@ exports.getProductById = async (req, res) => {
       message: 'Producto obtenido correctamente',
       data: product
     });
+
   } catch (error) {
+
     console.error('Error al obtener producto:', error);
+
     res.status(500).json({
       success: false,
       message: 'Error al obtener producto',
       data: null
     });
+
   }
 };
 
-// Crear un nuevo producto
+// Crear producto
 exports.createProduct = async (req, res) => {
   try {
-    const { nombre, precio, descripcion } = req.body;
+
+    const {
+      nombre,
+      precio,
+      descripcion,
+      imageUrl,
+      categoryId
+    } = req.body;
 
     if (!nombre || !precio) {
       return res.status(400).json({
@@ -68,27 +85,45 @@ exports.createProduct = async (req, res) => {
       });
     }
 
-    const product = await Product.create({ nombre, precio, descripcion });
+    const product = await Product.create({
+      nombre,
+      precio,
+      descripcion,
+      imageUrl,
+      categoryId
+    });
 
     res.status(201).json({
       success: true,
       message: 'Producto creado correctamente',
       data: product
     });
+
   } catch (error) {
+
     console.error('Error al crear producto:', error);
+
     res.status(500).json({
       success: false,
       message: 'Error al crear producto',
       data: null
     });
+
   }
 };
 
-// Actualizar un producto existente
+// Actualizar producto
 exports.updateProduct = async (req, res) => {
   try {
-    const { nombre, precio, descripcion } = req.body;
+
+    const {
+      nombre,
+      precio,
+      descripcion,
+      imageUrl,
+      categoryId
+    } = req.body;
+
     const product = await Product.findByPk(req.params.id);
 
     if (!product) {
@@ -107,26 +142,37 @@ exports.updateProduct = async (req, res) => {
       });
     }
 
-    await product.update({ nombre, precio, descripcion });
+    await product.update({
+      nombre,
+      precio,
+      descripcion,
+      imageUrl,
+      categoryId
+    });
 
     res.json({
       success: true,
       message: 'Producto actualizado correctamente',
       data: product
     });
+
   } catch (error) {
+
     console.error('Error al actualizar producto:', error);
+
     res.status(500).json({
       success: false,
       message: 'Error al actualizar producto',
       data: null
     });
+
   }
 };
 
-// Eliminar un producto
+// Eliminar producto
 exports.deleteProduct = async (req, res) => {
   try {
+
     const product = await Product.findByPk(req.params.id);
 
     if (!product) {
@@ -144,12 +190,16 @@ exports.deleteProduct = async (req, res) => {
       message: 'Producto eliminado correctamente',
       data: null
     });
+
   } catch (error) {
+
     console.error('Error al eliminar producto:', error);
+
     res.status(500).json({
       success: false,
       message: 'Error al eliminar producto',
       data: null
     });
+
   }
 };

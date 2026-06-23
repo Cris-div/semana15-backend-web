@@ -6,11 +6,13 @@ const sequelize = require('./config/database');
 // Importar modelos
 require('./models/Product');
 require('./models/User');
+require('./models/Category');
 
 const PORT = process.env.PORT || 3001;
 
 const startServer = async () => {
   try {
+
     await sequelize.authenticate();
     console.log('Conexión a la base de datos establecida');
 
@@ -22,8 +24,10 @@ const startServer = async () => {
     });
 
   } catch (error) {
+
     console.error('Error al iniciar el servidor:', error);
     process.exit(1);
+
   }
 };
 

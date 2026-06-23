@@ -3,6 +3,7 @@ const cors = require('cors');
 
 const productsRouter = require('./routes/products');
 const authRoutes = require('./routes/authRoutes');
+const categoriesRouter = require('./routes/categories');
 
 const app = express();
 
@@ -13,6 +14,7 @@ app.use(express.json());
 // Rutas API
 app.use('/api/products', productsRouter);
 app.use('/api/auth', authRoutes);
+app.use('/api/categories', categoriesRouter);
 
 // Ruta raíz
 app.get('/', (req, res) => {

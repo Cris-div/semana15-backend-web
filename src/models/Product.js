@@ -7,6 +7,7 @@ const Product = sequelize.define('Product', {
     primaryKey: true,
     autoIncrement: true
   },
+
   nombre: {
     type: DataTypes.STRING(100),
     allowNull: false,
@@ -14,6 +15,7 @@ const Product = sequelize.define('Product', {
       notEmpty: true
     }
   },
+
   precio: {
     type: DataTypes.DECIMAL(10, 2),
     allowNull: false,
@@ -21,10 +23,22 @@ const Product = sequelize.define('Product', {
       min: 0
     }
   },
+
   descripcion: {
     type: DataTypes.TEXT,
     allowNull: true
+  },
+
+  imageUrl: {
+    type: DataTypes.STRING,
+    allowNull: true
+  },
+
+  categoryId: {
+    type: DataTypes.INTEGER,
+    allowNull: true
   }
+
 }, {
   tableName: 'products',
   timestamps: true
