@@ -17,7 +17,8 @@ const allowedOrigins = [
   process.env.FRONTEND_URL,
   process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : null,
   'http://localhost:3000',
-  'http://localhost:3001'
+  'http://localhost:3001',
+  'https://semana15-fronted-web.vercel.app'
 ].filter(Boolean);
 
 // Middlewares
