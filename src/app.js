@@ -7,8 +7,30 @@ const categoriesRouter = require('./routes/categories');
 
 const app = express();
 
+const configuredOrigins = (process.env.CORS_ORIGINS || '')
+  .split(',')
+  .map((origin) => origin.trim())
+  .filter(Boolean);
+
+const allowedOrigins = [
+  ...configuredOrigins,
+  process.env.FRONTEND_URL,
+  process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : null,
+  'http://localhost:3000',
+  'http://localhost:3001'
+].filter(Boolean);
+
 // Middlewares
-app.use(cors());
+app.use(cors({
+  origin(origin, callback) {
+    if (!origin || allowedOrigins.includes(origin)) {
+      return callback(null, true);
+    }
+
+    return callback(new Error('Origen no permitido por CORS'));
+  },
+  credentials: true
+}));
 app.use(express.json());
 
 // Rutas API

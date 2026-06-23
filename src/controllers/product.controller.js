@@ -66,7 +66,9 @@ exports.createProduct = async (req, res) => {
       precio,
       descripcion,
       imageUrl,
-      categoryId
+      categoryId,
+      ImageUrl,
+      CategoryId
     } = req.body;
 
     if (!nombre || !precio) {
@@ -89,8 +91,8 @@ exports.createProduct = async (req, res) => {
       nombre,
       precio,
       descripcion,
-      imageUrl,
-      categoryId
+      imageUrl: imageUrl ?? ImageUrl,
+      categoryId: categoryId ?? CategoryId
     });
 
     res.status(201).json({
@@ -121,7 +123,9 @@ exports.updateProduct = async (req, res) => {
       precio,
       descripcion,
       imageUrl,
-      categoryId
+      categoryId,
+      ImageUrl,
+      CategoryId
     } = req.body;
 
     const product = await Product.findByPk(req.params.id);
@@ -146,8 +150,8 @@ exports.updateProduct = async (req, res) => {
       nombre,
       precio,
       descripcion,
-      imageUrl,
-      categoryId
+      imageUrl: imageUrl ?? ImageUrl,
+      categoryId: categoryId ?? CategoryId
     });
 
     res.json({

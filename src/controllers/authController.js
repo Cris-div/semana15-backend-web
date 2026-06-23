@@ -8,6 +8,20 @@ exports.register = async (req, res) => {
 
     const { nombre, email, password } = req.body;
 
+    if (!nombre || !email || !password) {
+      return res.status(400).json({
+        message: 'Nombre, email y password son requeridos'
+      });
+    }
+
+    const existingUser = await User.findOne({ where: { email } });
+
+    if (existingUser) {
+      return res.status(409).json({
+        message: 'El email ya se encuentra registrado'
+      });
+    }
+
     const hashedPassword =
       await bcrypt.hash(password, 10);
 
@@ -18,7 +32,12 @@ exports.register = async (req, res) => {
       role: 'CUSTOMER'
     });
 
-    res.status(201).json(user);
+    res.status(201).json({
+      id: user.id,
+      nombre: user.nombre,
+      email: user.email,
+      role: user.role
+    });
 
   } catch (error) {
 
@@ -62,7 +81,7 @@ exports.login = async (req, res) => {
         id: user.id,
         role: user.role
       },
-      'secretkey',
+      process.env.JWT_SECRET || 'secretkey',
       {
         expiresIn: '1d'
       }
@@ -70,7 +89,13 @@ exports.login = async (req, res) => {
 
     res.json({
       token,
-      role: user.role
+      role: user.role,
+      user: {
+        id: user.id,
+        nombre: user.nombre,
+        email: user.email,
+        role: user.role
+      }
     });
 
   } catch (error) {
